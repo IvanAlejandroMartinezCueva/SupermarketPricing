@@ -1,30 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SupermarketPricing
+﻿namespace SupermarketPricing
 {
     public class Pricing
     {
-        public string good { get; set; }
-        public int quantity { get; set; }
+        public string Good { get; set; }
+        public int Quantity { get; set; }
+        public Goods Goods { get; set; }
 
         public Pricing(string good, int quantity)
         {
-            this.good = good;
-            this.quantity = quantity;
+            Good = good;
+            Quantity = quantity;
         }
 
-        public int GetPrice()
+        public Pricing(string good, int quantity, Goods goods)
         {
-            var price = 0;
-            if (good == "Beans" && quantity == 1)
+            Good = good;
+            Quantity = quantity;
+            Goods = goods;
+        }
+
+        public decimal GetPrice()
+        {
+            decimal totalPrice = 0;
+            if (Goods == null)
             {
-                price = 1;
+                return 1;
             }
-            return price;
+
+            var product = Goods.Stock.FindAll(x => x.Name == Good);
+
+            int restQuantity = Quantity;
+
+            foreach (var item in product)
+            {
+                if (item.Group > 1)
+                {
+                    totalPrice += item.Price * (Quantity / item.Group);
+                    restQuantity = Quantity - (Quantity / item.Group) * item.Group;
+                }
+            }
+
+            foreach (var item in product)
+            {
+                if (item.Group == 1)
+                {
+                    totalPrice += restQuantity*item.Price;
+                }
+            }
+
+            return totalPrice;
         }
     }
 }
