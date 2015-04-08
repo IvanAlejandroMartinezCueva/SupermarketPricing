@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using SupermarketPricing;
 
 namespace SupermarketPricingTest
@@ -47,6 +48,17 @@ namespace SupermarketPricingTest
             var pricing = new Pricing("Soap", 4, goods);
             var price = pricing.GetPrice();
             Assert.IsTrue(price == new decimal(1.5));
+        }
+
+        [Test]
+        public void TestCreateContinueGoodsAndGetPrice()
+        {
+            var goods = new Goods();
+            goods.AddPriceContinue("Meat", 1, "pound", new decimal(1.80));
+
+            var pricing = new Pricing("Meat", new Decimal(0.5), goods);
+            var price = pricing.GetContinuousPrice();
+            Assert.IsTrue(price == new decimal(0.9));
         }
     }
 }

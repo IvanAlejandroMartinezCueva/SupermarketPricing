@@ -4,7 +4,8 @@
     {
         public string Good { get; set; }
         public int Quantity { get; set; }
-        public Goods Goods { get; set; }
+        public IPrice Goods { get; set; }
+        public decimal ContinuousQuantity { get; set; }
 
         public Pricing(string good, int quantity)
         {
@@ -12,10 +13,17 @@
             Quantity = quantity;
         }
 
-        public Pricing(string good, int quantity, Goods goods)
+        public Pricing(string good, int quantity, IPrice goods)
         {
             Good = good;
             Quantity = quantity;
+            Goods = goods;
+        }
+
+        public Pricing(string good, decimal continuousQuantity, IPrice goods)
+        {
+            Good = good;
+            ContinuousQuantity = continuousQuantity;
             Goods = goods;
         }
 
@@ -29,7 +37,7 @@
 
             var product = Goods.Stock.FindAll(x => x.Name == Good);
 
-            int restQuantity = Quantity;
+            var restQuantity = Quantity;
 
             foreach (var item in product)
             {
@@ -49,6 +57,12 @@
             }
 
             return totalPrice;
+        }
+
+        public decimal GetContinuousPrice()
+        {
+            var product = Goods.Stock.Find(x => x.Name == Good);
+            return ContinuousQuantity*product.Price;
         }
     }
 }
