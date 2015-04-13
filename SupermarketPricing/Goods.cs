@@ -2,22 +2,33 @@
 
 namespace SupermarketPricing
 {
-    public class Goods : IPrice
+    public class Goods// : IPrice
     {
-        public List<Good> Stock { get; set; }
+        private List<Good> PricesList;
+
+        public int Count
+        {
+            get { return PricesList.Count; }
+        }
+
         public Goods()
         {
-            Stock = new List<Good>();
+            PricesList = new List<Good>();
         }
 
-        public void AddPrice(string good, int group, decimal price)
+        public void Add(Good good)
         {
-            Stock.Add(new Good(good, group, "unidad", price));
+            PricesList.Add(good);
         }
 
-        public void AddPriceContinue(string good, int group, string unit, decimal price)
+        public void Clear()
         {
-            Stock.Add(new Good(good, group, unit, price));
+            PricesList.Clear();
+        }
+
+        public Good Find(string name)
+        {
+            return PricesList.Find(good => good.Name == name);
         }
     }
 }

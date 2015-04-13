@@ -42,7 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestSupermarketPricing.cs" />
+    <Compile Include="GoodsTest.cs" />
+    <Compile Include="GoodTest.cs" />
+    <Compile Include="PricingTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
