@@ -67,5 +67,17 @@ namespace SupermarketPricingTest
             Assert.That(good,Is.Not.Null);
             Assert.That(good.Name,Is.EqualTo("Soap"));
         }
+
+        [Test]
+        public void ShouldReturnEntireList()
+        {
+            _goods = new Goods();
+            _goods.Add(new Good("Soap", 0.65m, "SimplePricing"));
+            _goods.Add(new Good("Soup", 1.8m, "SimplePricing"));
+
+            List<Good> goods = _goods.GetList();
+
+            Assert.IsTrue(_goods.CompareTo(goods) == 0);
+        }
     }
 }

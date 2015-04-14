@@ -3,7 +3,7 @@ using System.Security.AccessControl;
 
 namespace SupermarketPricing
 {
-    public class Good
+    public class Good : IComparable<Good>
     {
         public string Name { get; private set; }
         public decimal Price { get; private set; }
@@ -29,12 +29,21 @@ namespace SupermarketPricing
         {
             if (type == "SimplePricing" && quantity > 1)
             {
-                throw new Exception("Quantity should be 1");
+                throw new QuantityException();
             }
             if (type == "GroupPricing" && quantity == 1)
             {
-                throw new Exception("Quantity should be greater than 1");
+                throw new QuantityException();
             }
+        }
+
+        public int CompareTo(Good other)
+        {
+            if (Name == other.Name && Price == other.Price && Quantity == other.Quantity && Type == other.Type)
+            {
+                return 0;
+            }
+            return -1;
         }
     }
 }
